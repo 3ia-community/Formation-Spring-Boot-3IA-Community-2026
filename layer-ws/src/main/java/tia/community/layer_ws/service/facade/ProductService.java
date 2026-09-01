@@ -13,4 +13,6 @@ public interface ProductService {
     List<Product> findByCategory(String category);
 
     List<Product> findByCategoryAndDisbonible(String category, boolean disbonible);
+
+    List<Product> search(String name, String category, Double minPrice, Boolean disbonible);
 }

@@ -38,4 +38,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> findByCategoryAndDisbonible(String category, boolean disbonible) {
         return productRepository.findByCategoryAndDisponible(category, disbonible);
     }
+
+    @Override
+    public List<Product> search(String name, String category, Double minPrice, Boolean disbonible) {
+        return productRepository.search(name, category, minPrice, disbonible);
+    }
 }
