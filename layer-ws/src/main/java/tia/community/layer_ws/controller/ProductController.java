@@ -1,6 +1,8 @@
 package tia.community.layer_ws.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import tia.community.layer_ws.entity.Product;
@@ -37,30 +39,32 @@ public class ProductController {
         return productService.findByCategoryAndDisbonible(category, disbonible);
     }
 
-    @GetMapping("search")
-    public List<Product> search(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Boolean disbonible
-    ){
-        return productService.search(name, category, minPrice, disbonible);
-    }
-
-
 //    @GetMapping("search")
 //    public List<Product> search(
-//            ProductFilter productFilter
+//            @RequestParam(required = false) String name,
+//            @RequestParam(required = false) String category,
+//            @RequestParam(required = false) Double minPrice,
+//            @RequestParam(required = false) Boolean disbonible
 //    ){
-//        return productService.search(productFilter.getName(), productFilter.getCategory(), productFilter.getMinPrice(), productFilter.getDisbonible());
+//        return productService.search(name, category, minPrice, disbonible);
 //    }
+
+
+    @GetMapping("search")
+    public List<Product> search(
+            ProductFilter productFilter
+    ){
+        return productService.search(productFilter.getName(), productFilter.getCategory(),
+                productFilter.getMinPrice(), productFilter.getDisbonible());
+    }
 }
 
-//@Getter @Setter
-//class ProductFilter {
-//    private String name;
-//    private String category;
-//    private Double minPrice;
-//    private Boolean disbonible;
-//}
+@Getter
+@Setter
+class ProductFilter {
+    private String name;
+    private String category;
+    private Double minPrice;
+    private Boolean disbonible;
+}
 
