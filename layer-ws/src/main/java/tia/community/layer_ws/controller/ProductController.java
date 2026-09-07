@@ -39,32 +39,24 @@ public class ProductController {
         return productService.findByCategoryAndDisbonible(category, disbonible);
     }
 
-//    @GetMapping("search")
-//    public List<Product> search(
-//            @RequestParam(required = false) String name,
-//            @RequestParam(required = false) String category,
-//            @RequestParam(required = false) Double minPrice,
-//            @RequestParam(required = false) Boolean disbonible
-//    ){
-//        return productService.search(name, category, minPrice, disbonible);
-//    }
-
-
     @GetMapping("search")
     public List<Product> search(
-            ProductFilter productFilter
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Boolean disbonible
     ){
-        return productService.search(productFilter.getName(), productFilter.getCategory(),
-                productFilter.getMinPrice(), productFilter.getDisbonible());
+        return productService.search(name, category, minPrice, disbonible);
     }
-}
 
-@Getter
-@Setter
-class ProductFilter {
-    private String name;
-    private String category;
-    private Double minPrice;
-    private Boolean disbonible;
-}
+    @PostMapping
+    public Product save(@RequestBody Product product) {
+        return productService.save(product);
+    }
 
+    @PostMapping("saveAll")
+    public List<Product> saveAll(@RequestBody List<Product> products) {
+        return productService.saveAll(products);
+    }
+
+}

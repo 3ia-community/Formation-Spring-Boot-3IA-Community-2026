@@ -15,4 +15,8 @@ public interface ProductService {
     List<Product> findByCategoryAndDisbonible(String category, boolean disbonible);
 
     List<Product> search(String name, String category, Double minPrice, Boolean disbonible);
+
+    Product save(Product product);
+
+    List<Product> saveAll(List<Product> products);
 }

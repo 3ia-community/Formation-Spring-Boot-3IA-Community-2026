@@ -8,6 +8,7 @@ import tia.community.layer_ws.repository.ProductRepository;
 import tia.community.layer_ws.service.facade.ProductService;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author Ezzaim Mohammed
@@ -42,5 +43,19 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> search(String name, String category, Double minPrice, Boolean disbonible) {
         return productRepository.search(name, category, minPrice, disbonible);
+    }
+
+    @Override
+    public Product save(Product product) {
+        product.setRef(UUID.randomUUID().toString());
+        return productRepository.save(product);
+    }
+
+    @Override
+    public List<Product> saveAll(List<Product> products) {
+        products.forEach(product -> {
+            product.setRef(UUID.randomUUID().toString());
+        });
+        return productRepository.saveAll(products);
     }
 }
