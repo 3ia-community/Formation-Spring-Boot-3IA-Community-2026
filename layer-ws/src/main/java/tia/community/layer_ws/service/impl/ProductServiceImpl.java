@@ -8,6 +8,7 @@ import tia.community.layer_ws.repository.ProductRepository;
 import tia.community.layer_ws.service.facade.ProductService;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -74,6 +75,39 @@ public class ProductServiceImpl implements ProductService {
                 productInDB.setCategory(nvProduct.getCategory());
                 productInDB.setDisponible(nvProduct.isDisponible());
                 productInDB.setStock(nvProduct.getStock());
+
+                productRepository.save(productInDB);
+                return 1;
+            }
+        }
+    }
+
+    @Override
+    public int updatePartial(String refCurrentProduct, Map<String, Object> updates) {
+        if (refCurrentProduct == null || refCurrentProduct.isBlank() || updates == null) {
+            return -1;
+        }
+        else {
+            Product productInDB = productRepository.findByRef(refCurrentProduct);
+
+            if (productInDB == null) return -2;
+            else {
+                if (updates.containsKey("name")) {
+                    productInDB.setName(updates.get("name").toString());
+                }
+                if (updates.containsKey("price")) {
+                    productInDB.setPrice(Double.valueOf(updates.get("price").toString()));
+                }
+
+                if (updates.containsKey("category")) {
+                    productInDB.setCategory(updates.get("category").toString());
+                }
+                if (updates.containsKey("disponible")) {
+                    productInDB.setDisponible(Boolean.parseBoolean(updates.get("disponible").toString()));
+                }
+                if (updates.containsKey("stock")) {
+                    productInDB.setStock(Integer.parseInt(updates.get("stock").toString()));
+                }
 
                 productRepository.save(productInDB);
                 return 1;

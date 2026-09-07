@@ -9,6 +9,7 @@ import tia.community.layer_ws.entity.Product;
 import tia.community.layer_ws.service.facade.ProductService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Ezzaim Mohammed
@@ -63,4 +64,10 @@ public class ProductController {
     public int update(@PathVariable("ref") String refCurrentProduct, @RequestBody Product nvProduct) {
         return productService.update(refCurrentProduct, nvProduct);
     }
+
+    @PatchMapping("{ref}")
+    public int updatePartial(@PathVariable("ref") String refCurrentProduct, @RequestBody Map<String, Object> updates) {
+        return productService.updatePartial(refCurrentProduct, updates);
+    }
+
 }
