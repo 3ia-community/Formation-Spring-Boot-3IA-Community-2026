@@ -59,4 +59,8 @@ public class ProductController {
         return productService.saveAll(products);
     }
 
+    @PutMapping("{ref}")
+    public int update(@PathVariable("ref") String refCurrentProduct, @RequestBody Product nvProduct) {
+        return productService.update(refCurrentProduct, nvProduct);
+    }
 }

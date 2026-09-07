@@ -15,14 +15,14 @@ public class LayerWsApplication {
 		ApplicationContext ico_container = SpringApplication.run(LayerWsApplication.class, args);
 
 		ProductRepository productRepository = ico_container.getBean(ProductRepository.class);
-//
-//		List<Product> products = List.of(Product.builder().name("Lenovo").price(5000.0).category("Electronique").disponible(true).stock(100).build(),
-//		Product.builder().name("HP").price(4500.0).category("Electronique").disponible(true).stock(80).build(),
-//		Product.builder().name("Dell").price(6200.0).category("Electronique").disponible(true).stock(50).build(),
-//		Product.builder().name("Samsung Galaxy").price(7500.0).category("Smartphone").disponible(true).stock(40).build(),
-//		Product.builder().name("iPhone 15").price(9000.0).category("Smartphone").disponible(false).stock(0).build());
 
-//		productRepository.saveAll(products);
+		List<Product> products = List.of(Product.builder().name("Lenovo").price(5000.0).category("Electronique").disponible(true).stock(100).build(),
+		Product.builder().name("HP").price(4500.0).category("Electronique").disponible(true).stock(80).build(),
+		Product.builder().name("Dell").price(6200.0).category("Electronique").disponible(true).stock(50).build(),
+		Product.builder().name("Samsung Galaxy").price(7500.0).category("Smartphone").disponible(true).stock(40).build(),
+		Product.builder().name("iPhone 15").price(9000.0).category("Smartphone").disponible(false).stock(0).build());
+
+		productRepository.saveAll(products);
 
 	}
 

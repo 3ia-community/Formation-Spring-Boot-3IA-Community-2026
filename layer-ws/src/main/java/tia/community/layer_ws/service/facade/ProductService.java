@@ -19,4 +19,6 @@ public interface ProductService {
     Product save(Product product);
 
     List<Product> saveAll(List<Product> products);
+
+    int update(String refCurrentProduct, Product nvProduct);
 }

@@ -58,4 +58,26 @@ public class ProductServiceImpl implements ProductService {
         });
         return productRepository.saveAll(products);
     }
+
+    @Override
+    public int update(String refCurrentProduct, Product nvProduct) {
+        if (refCurrentProduct == null || refCurrentProduct.isBlank() || nvProduct == null) {
+            return -1;
+        } else {
+            Product productInDB = productRepository.findByRef(refCurrentProduct);
+
+            if (productInDB == null) return -2;
+            else {
+
+                productInDB.setName(nvProduct.getName());
+                productInDB.setPrice(nvProduct.getPrice());
+                productInDB.setCategory(nvProduct.getCategory());
+                productInDB.setDisponible(nvProduct.isDisponible());
+                productInDB.setStock(nvProduct.getStock());
+
+                productRepository.save(productInDB);
+                return 1;
+            }
+        }
+    }
 }
