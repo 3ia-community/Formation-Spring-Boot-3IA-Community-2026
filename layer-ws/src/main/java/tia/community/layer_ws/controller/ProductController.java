@@ -70,4 +70,20 @@ public class ProductController {
         return productService.updatePartial(refCurrentProduct, updates);
     }
 
+
+    @DeleteMapping("{ref}")
+    public int delete(@PathVariable(name = "ref") String refCurrentProduct) {
+        return productService.delete(refCurrentProduct);
+    }
+
+    @DeleteMapping
+    public void deleteByRefs(@RequestBody List<String> refs) {
+        productService.deleteByRefs(refs);
+    }
+
+    @DeleteMapping("category/{category}")
+    public void deleteByCategory(@PathVariable String category) {
+        productService.deleteByCategory(category);
+    }
+
 }

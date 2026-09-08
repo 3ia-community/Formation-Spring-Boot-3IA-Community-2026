@@ -114,4 +114,32 @@ public class ProductServiceImpl implements ProductService {
             }
         }
     }
+
+    @Override
+    public int delete(String refCurrentProduct) {
+        if (refCurrentProduct == null || refCurrentProduct.isBlank()) {
+            return -1;
+        } else {
+            Product productInDB = productRepository.findByRef(refCurrentProduct);
+            if (productInDB == null) return -2;
+            else {
+                productRepository.delete(productInDB);
+                return 1;
+            }
+        }
+    }
+
+    @Override
+    public void deleteByRefs(List<String> refs) {
+        for (String ref : refs) {
+            delete(ref);
+        }
+    }
+
+    @Override
+    public void deleteByCategory(String category) {
+        if (category == null || category.isBlank()) return;
+        List<Product> productsByCategory = productRepository.findByCategory(category);
+        productRepository.deleteAll(productsByCategory);
+    }
 }

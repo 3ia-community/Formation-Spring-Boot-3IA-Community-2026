@@ -24,4 +24,10 @@ public interface ProductService {
     int update(String refCurrentProduct, Product nvProduct);
 
     int updatePartial(String refCurrentProduct, Map<String, Object> updates);
+
+    int delete(String refCurrentProduct);
+
+    void deleteByRefs(List<String> refs);
+
+    void deleteByCategory(String category);
 }
