@@ -11,6 +11,9 @@ public interface ClientService {
     List<Client> findByVille(String ville);
     List<Client> findByActif(boolean actif);
     Client save(Client client);
+
+    List<Client> saveAll(List<Client> clients);
+
     int update(String ref, Client nvClient);
     int updatePartial(String ref, Map<String, Object> updates);
     int delete(String ref);

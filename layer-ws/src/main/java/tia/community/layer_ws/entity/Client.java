@@ -28,6 +28,7 @@ public class Client {
     private String nom;
     private String prenom;
     private String email;
+    private String password;
     private String ville;
     private boolean actif;
 

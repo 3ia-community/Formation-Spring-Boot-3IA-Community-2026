@@ -2,6 +2,8 @@ package tia.community.layer_ws.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import tia.community.layer_ws.dto.request.ClientDtoRequest;
+import tia.community.layer_ws.dto.response.ClientDtoResponse;
 import tia.community.layer_ws.entity.Client;
 import tia.community.layer_ws.service.facade.ClientService;
 
@@ -24,8 +26,23 @@ public class ClientController {
     }
 
     @RequestMapping(path = "{ref}", method = RequestMethod.GET)
-    public Client findByRef(@PathVariable String ref) {
-        return clientService.findByRef(ref);
+    public ClientDtoResponse findByRef(@PathVariable String ref) {
+        Client client = clientService.findByRef(ref);
+        ClientDtoResponse clientDto = convertEntityToDto(client);
+        return clientDto;
+    }
+
+    private ClientDtoResponse convertEntityToDto(Client client) {
+        ClientDtoResponse clientDto = ClientDtoResponse.builder()
+                .ref(client.getRef())
+                .nom(client.getNom())
+                .prenom(client.getPrenom())
+                .email(client.getEmail())
+                .ville(client.getVille())
+                .actif(client.isActif())
+                .build();
+
+        return clientDto;
     }
 
     @RequestMapping(path = "ville/{ville}", method = RequestMethod.GET)
@@ -39,9 +56,29 @@ public class ClientController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Client save(@RequestBody Client client) {
-        return clientService.save(client);
+    public ClientDtoResponse save(@RequestBody ClientDtoRequest clientDtoRequest) {
+        Client client = convertDtoToEntity(clientDtoRequest);
+        return convertEntityToDto(clientService.save(client));
     }
+
+    private Client convertDtoToEntity(ClientDtoRequest clientDtoRequest) {
+        Client client = Client.builder()
+                .nom(clientDtoRequest.getNom())
+                .prenom(clientDtoRequest.getPrenom())
+                .email(clientDtoRequest.getEmail())
+                .password(clientDtoRequest.getPassword())
+                .ville(clientDtoRequest.getVille())
+                .actif(clientDtoRequest.isActif())
+                .build();
+        return client;
+    }
+
+
+    @RequestMapping(path = "saveAll", method = RequestMethod.POST)
+    public List<Client> saveAll(@RequestBody List<Client> clients) {
+        return clientService.saveAll(clients);
+    }
+
 
     @RequestMapping(path = "{ref}", method = RequestMethod.PUT)
     public int update(@PathVariable String ref, @RequestBody Client nvClient) {

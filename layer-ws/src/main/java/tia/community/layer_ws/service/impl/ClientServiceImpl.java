@@ -44,6 +44,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public List<Client> saveAll(List<Client> clients) {
+        return clientRepository.saveAll(clients);
+    }
+
+    @Override
     public int update(String ref, Client nvClient) {
         if (ref == null || ref.isBlank() || nvClient == null) {
             return -1;
@@ -54,6 +59,7 @@ public class ClientServiceImpl implements ClientService {
                 clientInDB.setNom(nvClient.getNom());
                 clientInDB.setPrenom(nvClient.getPrenom());
                 clientInDB.setEmail(nvClient.getEmail());
+                clientInDB.setPassword(nvClient.getPassword());
                 clientInDB.setVille(nvClient.getVille());
                 clientInDB.setActif(nvClient.isActif());
 
