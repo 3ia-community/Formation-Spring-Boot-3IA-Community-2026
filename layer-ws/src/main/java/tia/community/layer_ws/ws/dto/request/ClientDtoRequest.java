@@ -1,4 +1,4 @@
-package tia.community.layer_ws.dto.request;
+package tia.community.layer_ws.ws.dto.request;
 import lombok.*;
 
 /**

@@ -1,4 +1,4 @@
-package tia.community.layer_ws.controller;
+package tia.community.layer_ws.ws.controller;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
