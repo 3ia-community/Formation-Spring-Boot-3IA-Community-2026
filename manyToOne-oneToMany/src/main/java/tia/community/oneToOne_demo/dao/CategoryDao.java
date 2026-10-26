@@ -5,4 +5,5 @@ import tia.community.oneToOne_demo.entity.Category;
 import tia.community.oneToOne_demo.entity.Produit;
 
 public interface CategoryDao extends JpaRepository<Category, Integer> {
+    Category findByName(String name);
 }

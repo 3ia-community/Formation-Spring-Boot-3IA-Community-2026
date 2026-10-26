@@ -13,6 +13,7 @@ import tia.community.oneToOne_demo.entity.Category;
 import tia.community.oneToOne_demo.entity.Client;
 import tia.community.oneToOne_demo.entity.Produit;
 import tia.community.oneToOne_demo.entity.Profile;
+import tia.community.oneToOne_demo.service.CategoryService;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class OneToOneDemoApplication {
 		ApplicationContext ioc_Container = SpringApplication.run(OneToOneDemoApplication.class, args);
 	}
 
-	@Bean
+	// @Bean
 	public CommandLineRunner saveProduitAndCategory(ProduitDao produitDao, CategoryDao categoryDao) {
 
 		return args -> {
@@ -93,6 +94,33 @@ public class OneToOneDemoApplication {
 					.build();
 
 			produitDao.saveAll(List.of(nike, adidas));
+		};
+	}
+
+//	@Bean
+//	public CommandLineRunner returnProduitsByCategory(CategoryDao categoryDao) {
+//		return args -> {
+//
+//		Category category = categoryDao.findByName("Electronic");
+//		List<Produit> produits = category.getProduits();
+//
+//		System.out.println(category.getName());
+//		produits.forEach(produit -> {
+//			System.out.println("---------------------------");
+//			System.out.println(produit.getName());
+//			System.out.println(produit.getPrice());
+//			System.out.println(produit.getImageUrl());
+//			System.out.println(produit.getCategory().getName());
+//		});
+//
+//		};
+//	}
+
+
+	@Bean
+	public CommandLineRunner returnProduitsByCategory(CategoryService categoryService) {
+		return args -> {
+			categoryService.returnProduitsByCategory();
 		};
 	}
 }

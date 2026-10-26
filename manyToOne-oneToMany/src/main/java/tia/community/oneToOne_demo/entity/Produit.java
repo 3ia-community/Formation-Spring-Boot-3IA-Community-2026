@@ -27,6 +27,6 @@ public class Produit {
     private String imageUrl;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "my-category")
+    @JoinColumn(name = "category_id")
     private Category category;
 }

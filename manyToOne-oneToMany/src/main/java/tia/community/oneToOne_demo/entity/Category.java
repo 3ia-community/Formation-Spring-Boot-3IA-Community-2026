@@ -1,10 +1,9 @@
 package tia.community.oneToOne_demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 /**
  * @author Ezzaim Mohammed
@@ -21,4 +20,8 @@ public class Category {
     private String name;
     private String description;
     private String imageUrl;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    public List<Produit> produits;
+
 }
