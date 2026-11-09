@@ -3,6 +3,9 @@ package tia.community.oneToOne_demo.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Ezzaim Mohammed
  */
@@ -29,4 +32,8 @@ public class Produit {
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;
+
+
+    @ManyToMany(mappedBy = "produits")
+    private List<Client> clients = new ArrayList<>();
 }

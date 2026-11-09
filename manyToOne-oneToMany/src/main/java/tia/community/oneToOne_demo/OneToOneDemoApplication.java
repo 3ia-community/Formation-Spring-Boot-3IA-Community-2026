@@ -8,12 +8,11 @@ import org.springframework.context.annotation.Bean;
 import tia.community.oneToOne_demo.dao.CategoryDao;
 import tia.community.oneToOne_demo.dao.ClientDao;
 import tia.community.oneToOne_demo.dao.ProduitDao;
-import tia.community.oneToOne_demo.dao.ProfileDao;
 import tia.community.oneToOne_demo.entity.Category;
 import tia.community.oneToOne_demo.entity.Client;
 import tia.community.oneToOne_demo.entity.Produit;
-import tia.community.oneToOne_demo.entity.Profile;
-import tia.community.oneToOne_demo.service.CategoryService;
+import tia.community.oneToOne_demo.service.facade.ClientService;
+import tia.community.oneToOne_demo.service.facade.ProduitService;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +24,7 @@ public class OneToOneDemoApplication {
 		ApplicationContext ioc_Container = SpringApplication.run(OneToOneDemoApplication.class, args);
 	}
 
-	// @Bean
+//	@Bean
 	public CommandLineRunner saveProduitAndCategory(ProduitDao produitDao, CategoryDao categoryDao) {
 
 		return args -> {
@@ -98,29 +97,65 @@ public class OneToOneDemoApplication {
 	}
 
 //	@Bean
-//	public CommandLineRunner returnProduitsByCategory(CategoryDao categoryDao) {
-//		return args -> {
-//
-//		Category category = categoryDao.findByName("Electronic");
-//		List<Produit> produits = category.getProduits();
-//
-//		System.out.println(category.getName());
-//		produits.forEach(produit -> {
-//			System.out.println("---------------------------");
-//			System.out.println(produit.getName());
-//			System.out.println(produit.getPrice());
-//			System.out.println(produit.getImageUrl());
-//			System.out.println(produit.getCategory().getName());
-//		});
-//
-//		};
-//	}
+	public CommandLineRunner saveClients(ClientDao clientDao) {
+		return args -> {
+			Client mohammed = Client.builder()
+					.ref("M001")
+					.username("Mohammed")
+					.lastname("Ezzaim")
+					.email("mohammed@gmail.com")
+					.password("1234")
+					.build();
+
+			Client houda = Client.builder()
+					.ref("H001")
+					.username("Houda")
+					.lastname("nouri")
+					.email("houda@gmail.com")
+					.password("1234")
+					.build();
+
+			clientDao.saveAll(List.of(mohammed, houda));
+		};
+	}
+
+//	@Bean
+	public CommandLineRunner acheterProduitsByClients(ClientDao clientDao, ProduitDao produitDao) {
+		return args -> {
+			Client mohammed = clientDao.findByEmail("mohammed@gmail.com");
+			Client houda = clientDao.findByEmail("houda@gmail.com");
+
+			Produit adidas = produitDao.findById("e108b75c-a9ed-4d0d-a3b0-52b97e87e034").orElseThrow();
+			Produit hp = produitDao.findById("b8a7e6c9-f643-42cf-b450-714424e0ff32").orElseThrow();
+			Produit lenovo = produitDao.findById("b9a55f4e-4a79-4265-ade5-fdbd2d2cf3f0").orElseThrow();
+			Produit nike = produitDao.findById("2a7bf4e9-3a08-4522-996f-fd4a8607d932").orElseThrow();
+
+			List<Produit> buyByMohammed = List.of(adidas, hp, nike);
+			List<Produit> buyByHouda = List.of(lenovo, nike);
+
+			mohammed.setProduits(buyByMohammed);
+			houda.setProduits(buyByHouda);
+
+			clientDao.save(mohammed);
+			clientDao.save(houda);
+		};
+	}
+
+//	@Bean
+	public CommandLineRunner returnerProductsAcheteByClient(ClientService clientService) {
+		return args -> {
+			clientService.returnerProductsAcheteByClient("houda@gmail.com");
+		};
+	}
+
 
 
 	@Bean
-	public CommandLineRunner returnProduitsByCategory(CategoryService categoryService) {
+	public CommandLineRunner returnerClientsAcheteProduct(ProduitService produitService) {
 		return args -> {
-			categoryService.returnProduitsByCategory();
+			produitService.returnerClientsAcheteProduct("Adidas");
 		};
 	}
+
+
 }

@@ -1,4 +1,4 @@
-package tia.community.oneToOne_demo.service;
+package tia.community.oneToOne_demo.service.facade;
 
 import jakarta.transaction.Transactional;
 

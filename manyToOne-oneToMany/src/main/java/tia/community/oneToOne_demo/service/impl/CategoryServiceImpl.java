@@ -1,12 +1,12 @@
-package tia.community.oneToOne_demo.service;
+package tia.community.oneToOne_demo.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import tia.community.oneToOne_demo.dao.CategoryDao;
 import tia.community.oneToOne_demo.entity.Category;
 import tia.community.oneToOne_demo.entity.Produit;
+import tia.community.oneToOne_demo.service.facade.CategoryService;
 
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Service
 @AllArgsConstructor
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
     private final CategoryDao categoryDao;
 
     @Transactional
