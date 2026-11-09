@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>tia.community</groupId>
-	<artifactId>oneToOne-demo</artifactId>
+	<artifactId>manyTomany-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
