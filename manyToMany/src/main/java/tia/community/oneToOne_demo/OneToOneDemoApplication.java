@@ -7,10 +7,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import tia.community.oneToOne_demo.dao.CategoryDao;
 import tia.community.oneToOne_demo.dao.ClientDao;
+import tia.community.oneToOne_demo.dao.CommandDao;
 import tia.community.oneToOne_demo.dao.ProduitDao;
-import tia.community.oneToOne_demo.entity.Category;
-import tia.community.oneToOne_demo.entity.Client;
-import tia.community.oneToOne_demo.entity.Produit;
+import tia.community.oneToOne_demo.entity.*;
 import tia.community.oneToOne_demo.service.facade.ClientService;
 import tia.community.oneToOne_demo.service.facade.ProduitService;
 
@@ -120,7 +119,32 @@ public class OneToOneDemoApplication {
 	}
 
 //	@Bean
-	public CommandLineRunner acheterProduitsByClients(ClientDao clientDao, ProduitDao produitDao) {
+	public CommandLineRunner returnerProductsAcheteByClient(ClientService clientService) {
+		return args -> {
+			clientService.returnerProductsAcheteByClient("houda@gmail.com");
+		};
+	}
+
+
+
+//	@Bean
+	public CommandLineRunner returnerClientsAcheteProduct(ProduitService produitService) {
+		return args -> {
+			produitService.returnerClientsAcheteProduct("Adidas");
+		};
+	}
+
+	// @Bean
+	public CommandLineRunner buyAProduct(ProduitService produitService) {
+		return args -> {
+			produitService.buyAProduct("mohammed@gmail.com", "b9a55f4e-4a79-4265-ade5-fdbd2d2cf3f0");
+			produitService.buyAProduct("mohammed@gmail.com", "b8a7e6c9-f643-42cf-b450-714424e0ff32");
+		};
+	}
+
+
+	@Bean
+	public CommandLineRunner buyProduitsByClients(ClientDao clientDao, ProduitDao produitDao, CommandDao commandDao) {
 		return args -> {
 			Client mohammed = clientDao.findByEmail("mohammed@gmail.com");
 			Client houda = clientDao.findByEmail("houda@gmail.com");
@@ -130,32 +154,45 @@ public class OneToOneDemoApplication {
 			Produit lenovo = produitDao.findById("b9a55f4e-4a79-4265-ade5-fdbd2d2cf3f0").orElseThrow();
 			Produit nike = produitDao.findById("2a7bf4e9-3a08-4522-996f-fd4a8607d932").orElseThrow();
 
-			List<Produit> buyByMohammed = List.of(adidas, hp, nike);
-			List<Produit> buyByHouda = List.of(lenovo, nike);
+			// CMD Mohammed
+			Command cmdBuyByMohammed = Command.builder()
+					.ref(UUID.randomUUID().toString())
+					.client(mohammed)
+					.status(true)
+					.build();
 
-			mohammed.setProduits(buyByMohammed);
-			houda.setProduits(buyByHouda);
+			LigneCommand ligneCmd1 = LigneCommand.builder()
+					.ref(UUID.randomUUID().toString())
+					.produit(hp)
+					.quantite(1)
+					.prix(hp.getPrice())
+					.command(cmdBuyByMohammed)
+					.build();
 
-			clientDao.save(mohammed);
-			clientDao.save(houda);
+			LigneCommand ligneCmd2 = LigneCommand.builder()
+					.ref(UUID.randomUUID().toString())
+					.produit(nike)
+					.quantite(2)
+					.prix(nike.getPrice())
+					.command(cmdBuyByMohammed)
+					.build();
+
+			LigneCommand ligneCmd3 = LigneCommand.builder()
+					.ref(UUID.randomUUID().toString())
+					.produit(adidas)
+					.quantite(1)
+					.prix(adidas.getPrice())
+					.command(cmdBuyByMohammed)
+					.build();
+
+			cmdBuyByMohammed.setLigneCommands(List.of(ligneCmd1, ligneCmd2, ligneCmd3));
+			cmdBuyByMohammed.setPrixTotal(
+					ligneCmd1.getPrix()* ligneCmd1.getQuantite() +
+					ligneCmd2.getPrix()* ligneCmd2.getQuantite() +
+					ligneCmd3.getPrix()* ligneCmd3.getQuantite());
+
+			commandDao.save(cmdBuyByMohammed);
 		};
 	}
-
-//	@Bean
-	public CommandLineRunner returnerProductsAcheteByClient(ClientService clientService) {
-		return args -> {
-			clientService.returnerProductsAcheteByClient("houda@gmail.com");
-		};
-	}
-
-
-
-	@Bean
-	public CommandLineRunner returnerClientsAcheteProduct(ProduitService produitService) {
-		return args -> {
-			produitService.returnerClientsAcheteProduct("Adidas");
-		};
-	}
-
 
 }

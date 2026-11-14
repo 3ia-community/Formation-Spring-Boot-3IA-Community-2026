@@ -33,7 +33,6 @@ public class Produit {
     @JoinColumn(name = "category_id")
     private Category category;
 
-
-    @ManyToMany(mappedBy = "produits")
-    private List<Client> clients = new ArrayList<>();
+    @OneToMany(mappedBy = "produit")
+    private List<LigneCommand> ligneCommands;
 }

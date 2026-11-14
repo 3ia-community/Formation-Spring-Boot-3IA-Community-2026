@@ -3,6 +3,7 @@ package tia.community.oneToOne_demo.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tia.community.oneToOne_demo.dao.ClientDao;
 import tia.community.oneToOne_demo.dao.ProduitDao;
 import tia.community.oneToOne_demo.entity.Client;
 import tia.community.oneToOne_demo.entity.Produit;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ProduitServiceImpl implements ProduitService {
     private final ProduitDao produitDao;
+    private final ClientDao clientDao;
 
     @Transactional
     @Override
@@ -30,5 +32,19 @@ public class ProduitServiceImpl implements ProduitService {
             System.out.println(client.getEmail());
             System.out.println("-------------------------------");
         });
+    }
+
+    @Transactional
+    @Override
+    public void buyAProduct(String email, String id) {
+        Client client = clientDao.findByEmail(email);
+        Produit produit = produitDao.findById(id).orElseThrow();
+
+        List<Produit> produits = client.getProduits();
+        produits.add(produit);
+
+        client.setProduits(produits);
+
+        clientDao.save(client);
     }
 }
