@@ -46,7 +46,7 @@ public class ProduitController {
     }
 
     @GetMapping("category/{ref}")
-    public List<ProductDtoResponse> findByCategoryId(@PathVariable String ref) {
+    public List<ProductDtoResponse> findByCategoryRef(@PathVariable String ref) {
         return produitConverter.toDtos(produitService.findByCategoryRef(ref));
     }
 }
