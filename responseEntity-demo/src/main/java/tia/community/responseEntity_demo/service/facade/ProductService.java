@@ -15,5 +15,5 @@ public interface ProductService {
 
     void delete(Product produit);
 
-    List<Product> findByCategoryId(String id);
+    List<Product> findByCategoryRef(String id);
 }

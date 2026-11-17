@@ -51,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findByCategoryId(String ref) {
+    public List<Product> findByCategoryRef(String ref) {
         return productDao.findByCategoryRef(ref);
     }
 }

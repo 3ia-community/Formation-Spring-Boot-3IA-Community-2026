@@ -45,8 +45,8 @@ public class ProduitController {
         produitService.delete(produitConverter.toEntity(dto));
     }
 
-    @GetMapping("category/{id}")
-    public List<ProductDtoResponse> findByCategoryId(@PathVariable String id) {
-        return produitConverter.toDtos(produitService.findByCategoryId(id));
+    @GetMapping("category/{ref}")
+    public List<ProductDtoResponse> findByCategoryId(@PathVariable String ref) {
+        return produitConverter.toDtos(produitService.findByCategoryRef(ref));
     }
 }
