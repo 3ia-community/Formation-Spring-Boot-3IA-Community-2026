@@ -46,12 +46,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void delete(Product product) {
+    public void delete(String ref) {
+        Product product = productDao.findByRef(ref);
         productDao.delete(product);
     }
 
     @Override
-    public List<Product> findByCategoryId(String ref) {
+    public List<Product> findByCategoryRef(String ref) {
         return productDao.findByCategoryRef(ref);
     }
 }

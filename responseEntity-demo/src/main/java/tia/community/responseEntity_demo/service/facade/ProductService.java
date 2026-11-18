@@ -13,7 +13,7 @@ public interface ProductService {
 
     Product update(Product produit);
 
-    void delete(Product produit);
+    void delete(String ref);
 
-    List<Product> findByCategoryId(String id);
+    List<Product> findByCategoryRef(String id);
 }

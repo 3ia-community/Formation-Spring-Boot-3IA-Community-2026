@@ -1,6 +1,7 @@
 package tia.community.responseEntity_demo.ws.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tia.community.responseEntity_demo.entity.Category;
 import tia.community.responseEntity_demo.service.facade.CategoryService;
@@ -8,6 +9,7 @@ import tia.community.responseEntity_demo.ws.converter.CategoryConverter;
 import tia.community.responseEntity_demo.ws.dto.request.CategoryDtoRequest;
 import tia.community.responseEntity_demo.ws.dto.response.CategoryDtoResponse;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -21,27 +23,30 @@ public class CategoryController {
     private final CategoryConverter categoryConverter;
 
     @GetMapping
-    public List<CategoryDtoResponse> findAll() {
-        return categoryConverter.toDtos(categoryService.findAll());
+    public ResponseEntity<List<CategoryDtoResponse>> findAll() {
+        return ResponseEntity.ok().body(categoryConverter.toDtos(categoryService.findAll()));
     }
 
-    @GetMapping("{id}")
-    public CategoryDtoResponse findById(@PathVariable String ref) {
-        return categoryConverter.toDto(categoryService.findByRef(ref));
+    @GetMapping("{ref}")
+    public ResponseEntity<CategoryDtoResponse> findById(@PathVariable String ref) {
+        return ResponseEntity.ok().body(categoryConverter.toDto(categoryService.findByRef(ref)));
     }
 
     @PostMapping
-    public CategoryDtoResponse save(@RequestBody CategoryDtoRequest dto) {
-        return categoryConverter.toDto(categoryService.save(categoryConverter.toEntity(dto)));
+    public ResponseEntity<CategoryDtoResponse> save(@RequestBody CategoryDtoRequest dto) {
+        Category category = categoryService.save(categoryConverter.toEntity(dto));
+        URI uri = URI.create("/shop-app/categories/"+category.getRef());
+        return ResponseEntity.created(uri).body(categoryConverter.toDto(category));
     }
 
     @PutMapping
-    public CategoryDtoResponse update(CategoryDtoRequest dto) {
-        return categoryConverter.toDto(categoryService.update(categoryConverter.toEntity(dto)));
+    public ResponseEntity<CategoryDtoResponse> update(CategoryDtoRequest dto) {
+        return ResponseEntity.ok().body(categoryConverter.toDto(categoryService.update(categoryConverter.toEntity(dto))));
     }
 
     @DeleteMapping
-    public void delete(CategoryDtoRequest dto) {
+    public ResponseEntity<Void> delete(CategoryDtoRequest dto) {
         categoryService.delete(categoryConverter.toEntity(dto));
+        return ResponseEntity.noContent().build();
     }
 }
